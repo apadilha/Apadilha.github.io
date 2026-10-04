@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex dos Santos Padilha | Portfólio Profissional</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#0a0b10',
+                            card: '#121520',
+                            border: '#1e2436',
+                            cyan: '#00f3ff',
+                            purple: '#7000ff',
+                            green: '#10b981',
+                            pink: '#ff007f'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #0a0b10;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(18, 21, 32, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(30, 36, 54, 0.8);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(0, 243, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .cyber-badge {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .cyber-badge-purple {
+            background: rgba(112, 0, 255, 0.1);
+            border: 1px solid rgba(112, 0, 255, 0.3);
+        }
+        .cyber-badge-green {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        .text-glow-purple {
+            text-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
+        }
+        .text-glow-green {
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        .pulse-active {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen">
+
+    <canvas id="particles-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-cyber-border bg-opacity-80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyber-cyan to-cyber-purple flex items-center justify-center font-mono font-bold text-cyber-black text-xl shadow-lg shadow-cyber-cyan/20">
+                        AP
+                    </div>
+                    <div>
+                        <span class="font-mono font-bold text-lg text-white tracking-wider">ALEX PADILHA</span>
+                        <span class="hidden sm:inline-block text-xs font-mono text-cyber-cyan ml-2 px-2 py-0.5 rounded cyber-badge">// ANALISTA DE TI</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6 font-mono text-sm">
+                    <a href="#about" class="text-gray-300 hover:text-cyber-cyan transition-colors">/sobre</a>
+                    <a href="#skills" class="text-gray-300 hover:text-cyber-cyan transition-colors">/competencias</a>
+                    <a href="#projects" class="text-gray-300 hover:text-cyber-cyan transition-colors">/projetos</a>
+                    <a href="#learning" class="text-gray-300 hover:text-cyber-cyan transition-colors">/metodologia</a>
+                    <a href="#experience" class="text-gray-300 hover:text-cyber-cyan transition-colors">/trajetoria</a>
+                    <a href="#contact" class="px-4 py-2 rounded-lg bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/40 hover:bg-cyber-cyan hover:text-cyber-black font-semibold transition-all shadow-lg shadow-cyber-cyan/10">
+                        Contatar
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-cyber-border px-4 pt-2 pb-4 space-y-2 font-mono text-sm">
+            <a href="#about" class="block py-2 text-gray-300 hover:text-cyber-cyan">/sobre</a>
+            <a href="#skills" class="block py-2 text-gray-300 hover:text-cyber-cyan">/competencias</a>
+            <a href="#projects" class="block py-2 text-gray-300 hover:text-cyber-cyan">/projetos</a>
+            <a href="#learning" class="block py-2 text-gray-300 hover:text-cyber-cyan">/metodologia</a>
+            <a href="#experience" class="block py-2 text-gray-300 hover:text-cyber-cyan">/trajetoria</a>
+            <a href="#contact" class="block py-2 text-cyber-cyan font-bold">/contatar</a>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 py-12">
+
+        <!-- Hero Section -->
+        <section id="about" class="pt-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full cyber-badge text-cyber-cyan text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-cyber-green pulse-active"></span>
+                        Disponível para Novos Desafios & Soluções
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+                        Alex dos Santos <br/>
+                        <span class="bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-green bg-clip-text text-transparent">Padilha</span>
+                    </h1>
+
+                    <p class="font-mono text-cyber-cyan text-lg sm:text-xl font-medium">
+                        &gt; Analista de Sistemas | Desenvolvedor Progress 4GL / TOTVS Datasul & Python
+                    </p>
+
+                    <p class="text-gray-300 text-base leading-relaxed">
+                        Analista de TI com 16 anos de trajetória sólida na Joalmi, acumulando 8 anos de experiência técnica no desenvolvimento, customização, manutenção e suporte ao **ERP TOTVS Datasul**. Especialista em **Progress 4GL (ABL)**, com foco constante em otimização de performance, automação de processos e modernização através de **Python, Angular, JavaScript e Web**.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#projects" class="px-6 py-3 rounded-xl bg-gradient-to-r from-cyber-cyan to-blue-600 text-cyber-black font-bold font-mono hover:opacity-90 transition-all shadow-lg shadow-cyber-cyan/20 flex items-center gap-2">
+                            <i class="fas fa-rocket"></i> Ver Projetos
+                        </a>
+                        <a href="https://github.com/Apadilha" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl glass-panel text-white font-mono hover:border-cyber-purple transition-all flex items-center gap-2 border border-cyber-border">
+                            <i class="fab fa-github text-cyber-purple text-lg"></i> GitHub Profile
+                        </a>
+                        <a href="https://linkedin.com/in/asantos321" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl glass-panel text-white font-mono hover:border-cyber-cyan transition-all flex items-center gap-2 border border-cyber-border">
+                            <i class="fab fa-linkedin text-cyber-cyan text-lg"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Metrics Dashboard Card -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel rounded-2xl p-6 border border-cyber-cyan/20 space-y-6 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyber-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <h3 class="font-mono text-sm text-cyber-cyan font-semibold uppercase tracking-wider flex items-center justify-between">
+                            <span><i class="fas fa-terminal"></i> Overview_Stats.log</span>
+                            <span class="text-xs text-gray-500">Guarulhos - SP</span>
+                        </h3>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-cyber-black/60 border border-cyber-border">
+                                <span class="block text-3xl font-extrabold text-white font-mono text-glow-cyan">16 Anos</span>
+                                <span class="text-xs text-gray-400 font-mono">Trajetória na Joalmi</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-cyber-black/60 border border-cyber-border">
+                                <span class="block text-3xl font-extrabold text-cyber-purple font-mono text-glow-purple">8 Anos</span>
+                                <span class="text-xs text-gray-400 font-mono">Progress 4GL & Datasul</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-cyber-black/60 border border-cyber-border">
+                                <span class="block text-3xl font-extrabold text-cyber-green font-mono text-glow-green">ADS</span>
+                                <span class="text-xs text-gray-400 font-mono">Análise e Dev. Sistemas</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-cyber-black/60 border border-cyber-border">
+                                <span class="block text-3xl font-extrabold text-cyber-cyan font-mono text-glow-cyan">Full Tech</span>
+                                <span class="text-xs text-gray-400 font-mono">Python & Web Dev</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-cyber-cyan/5 border border-cyber-cyan/20 font-mono text-xs text-gray-300 space-y-1.5">
+                            <p><span class="text-cyber-green">✓</span> TOTVS Datasul (v12) & Progress 4GL / ABL</p>
+                            <p><span class="text-cyber-green">✓</span> SQL Server & Stored Procedures (T-SQL)</p>
+                            <p><span class="text-cyber-green">✓</span> Python, Django, Pygame & Automação</p>
+                            <p><span class="text-cyber-green">✓</span> Angular 19, JavaScript (OO), HTML5 & CSS3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills Section -->
+        <section id="skills" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-mono text-white">
+                    <span class="text-cyber-cyan">&lt;</span> Competências TÉCNICAS <span class="text-cyber-cyan">/&gt;</span>
+                </h2>
+                <p class="text-gray-400 text-sm">
+                    Domínio em ecossistema ERP TOTVS Datasul combinado com stack moderna de desenvolvimento web e software.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- ERP & Progress -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan text-xl">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="text-lg font-bold font-mono text-white">ERP & Linguagens</h3>
+                    <p class="text-xs text-gray-400">Desenvolvimento, customização e suporte de rotinas no ecossistema TOTVS Datasul.</p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge text-cyber-cyan">TOTVS Datasul (v12)</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge text-cyber-cyan">Progress 4GL / ABL</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge text-cyber-cyan">OpenEdge ABL</span>
+                    </div>
+                </div>
+
+                <!-- Database -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple text-xl">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-lg font-bold font-mono text-white">Banco de Dados</h3>
+                    <p class="text-xs text-gray-400">Modelagem, administração básica e criação de queries eficientes.</p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-purple text-cyber-purple">MS SQL Server 2022</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-purple text-cyber-purple">T-SQL</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-purple text-cyber-purple">Stored Procedures</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-purple text-cyber-purple">Administração Básica</span>
+                    </div>
+                </div>
+
+                <!-- Web Development -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyber-green/10 border border-cyber-green/30 flex items-center justify-center text-cyber-green text-xl">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-lg font-bold font-mono text-white">Desenvolvimento Web</h3>
+                    <p class="text-xs text-gray-400">Desenvolvimento de interfaces e aplicações modernas e responsivas.</p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-green text-cyber-green">Python</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-green text-cyber-green">Django</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-green text-cyber-green">Angular 19</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-green text-cyber-green">JavaScript (Lógica / OO)</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono cyber-badge-green text-cyber-green">HTML5 & CSS3</span>
+                    </div>
+                </div>
+
+                <!-- ERP Maintenance & Infra -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 text-xl">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="text-lg font-bold font-mono text-white">Manutenção & Ferramentas</h3>
+                    <p class="text-xs text-gray-400">Gestão de chamados, infraestrutura ERP e atualização de pacotes.</p>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-pink-500/10 border border-pink-500/30 text-pink-400">Pacotes Datasul</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-pink-500/10 border border-pink-500/30 text-pink-400">Console TOTVS</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-pink-500/10 border border-pink-500/30 text-pink-400">GLPI Incidentes</span>
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-pink-500/10 border border-pink-500/30 text-pink-400">Suporte TI</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-cyber-border pb-6">
+                <div>
+                    <h2 class="text-3xl font-bold font-mono text-white">
+                        <span class="text-cyber-cyan">&lt;</span> Projetos em Destaque <span class="text-cyber-cyan">/&gt;</span>
+                    </h2>
+                    <p class="text-gray-400 text-sm mt-1">Soluções práticas e projetos em desenvolvimento</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                    <button onclick="filterProjects('all')" class="filter-btn active px-3 py-1.5 rounded-lg bg-cyber-cyan text-cyber-black font-bold transition-all">Todos</button>
+                    <button onclick="filterProjects('python')" class="filter-btn px-3 py-1.5 rounded-lg glass-panel text-gray-300 hover:text-white transition-all">Python & Django</button>
+                    <button onclick="filterProjects('game')" class="filter-btn px-3 py-1.5 rounded-lg glass-panel text-gray-300 hover:text-white transition-all">Pygame</button>
+                    <button onclick="filterProjects('erp')" class="filter-btn px-3 py-1.5 rounded-lg glass-panel text-gray-300 hover:text-white transition-all">OpenEdge / Progress ABL</button>
+                </div>
+            </div>
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- PROJECT 1: Snake Game in Pygame -->
+                <div class="project-card game python glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col">
+                    <div class="relative h-64 overflow-hidden group bg-cyber-black">
+                        <img src="img/snake_live.jpg" alt="Jogo Snake" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'; document.getElementById('snake-fallback').style.display='flex';">
+                        
+                        <!-- Fallback SVG em caso de ausência da imagem local -->
+                        <div id="snake-fallback" class="hidden w-full h-full bg-gradient-to-br from-cyber-black via-green-950/40 to-cyber-card items-center justify-center p-4">
+                            <svg class="w-full h-full max-h-56" viewBox="0 0 600 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="600" height="350" fill="#0a0b10" />
+                                <path d="M 50 175 Q 150 100 250 175 T 450 175" stroke="#10b981" stroke-width="16" stroke-linecap="round" fill="none"/>
+                                <circle cx="460" cy="175" r="14" fill="#10b981"/>
+                                <circle cx="465" cy="170" r="3" fill="#000"/>
+                                <rect x="520" y="160" width="25" height="25" rx="6" fill="#ff007f"/>
+                            </svg>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 px-3 py-1 rounded-full cyber-badge-green text-cyber-green text-xs font-mono font-bold flex items-center gap-1.5 backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-cyber-green pulse-active"></span> Em Andamento
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-2xl font-bold font-mono text-white">Jogo Snake (Pygame)</h3>
+                                <span class="text-xs font-mono text-cyber-green border border-cyber-green/30 px-2 py-0.5 rounded">Python Game</span>
+                            </div>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Desenvolvimento do clássico jogo Snake utilizando Python e a biblioteca **Pygame**. Implementação de lógica de colisão, mecânica de velocidade progressiva, loop de jogo dinâmico e elementos interativos.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Python 3</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Pygame</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Lógica de Jogos</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">POO</span>
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-2 border-t border-cyber-border/50">
+                                <a href="https://github.com/Apadilha" target="_blank" rel="noopener" class="text-xs font-mono text-cyber-green hover:underline flex items-center gap-1">
+                                    <i class="fab fa-github"></i> Acompanhar no GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECT 2: Commercial System (Django) -->
+                <div class="project-card python glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col">
+                    <div class="relative h-64 overflow-hidden group bg-cyber-black">
+                        <img src="img/caixa_mercado.jpg" alt="Sistema de Comércio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'; document.getElementById('commerce-fallback').style.display='flex';">
+
+                        <!-- Fallback SVG em caso de ausência da imagem local -->
+                        <div id="commerce-fallback" class="hidden w-full h-full bg-gradient-to-br from-cyber-black via-purple-950/40 to-cyber-card items-center justify-center p-4">
+                            <svg class="w-full h-full max-h-56" viewBox="0 0 600 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="600" height="350" fill="#0a0b10" />
+                                <rect x="180" y="100" width="240" height="150" rx="16" fill="#1e1b4b" stroke="#7000ff" stroke-width="3"/>
+                                <rect x="210" y="40" width="180" height="70" rx="8" fill="#0a0b10" stroke="#00f3ff" stroke-width="2"/>
+                                <text x="230" y="80" fill="#00f3ff" font-family="monospace" font-size="20" font-weight="bold">R$ 1.250,00</text>
+                            </svg>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-transparent to-transparent"></div>
+                        <div class="absolute top-3 right-3 px-3 py-1 rounded-full cyber-badge-purple text-cyber-purple text-xs font-mono font-bold flex items-center gap-1.5 backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-cyber-purple pulse-active"></span> Em Andamento
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-2xl font-bold font-mono text-white">Sistema de Comércio (Django)</h3>
+                                <span class="text-xs font-mono text-cyber-purple border border-cyber-purple/30 px-2 py-0.5 rounded">Python Full-Stack</span>
+                            </div>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Sistema comercial de gestão de vendas e frente de caixa. Desenvolvimento com **Python e Django**, cobrindo arquitetura MVT, cadastro de produtos, fluxo financeiro, caixa e pedidos.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-purple border border-cyber-border">Python</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-purple border border-cyber-border">Django Framework</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-purple border border-cyber-border">Banco de Dados</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-purple border border-cyber-border">HTML/CSS/JS</span>
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-2 border-t border-cyber-border/50">
+                                <a href="https://github.com/Apadilha" target="_blank" rel="noopener" class="text-xs font-mono text-cyber-purple hover:underline flex items-center gap-1">
+                                    <i class="fab fa-github"></i> Repositório no GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECT 3: Progress ABL Customizations -->
+                <div class="project-card erp glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-2xl font-bold font-mono text-white">Customizações TOTVS Datasul</h3>
+                                <span class="text-xs font-mono text-cyber-cyan border border-cyber-cyan/30 px-2 py-0.5 rounded">Progress 4GL</span>
+                            </div>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Desenvolvimento de programas, telas e relatórios customizados em **Progress 4GL / ABL** para otimização de fluxos operacionais e suporte a decisões de negócio no ERP Datasul.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-cyan border border-cyber-border">TOTVS Datasul 12</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-cyan border border-cyber-border">Progress 4GL / ABL</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-cyan border border-cyber-border">OpenEdge</span>
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-2 border-t border-cyber-border/50">
+                                <span class="text-xs font-mono text-gray-400">
+                                    <i class="fas fa-industry text-cyber-cyan"></i> Ambiente Corporativo Industrial
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECT 4: Automation & Integration -->
+                <div class="project-card python erp glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-2xl font-bold font-mono text-white">Automações & Integrações</h3>
+                                <span class="text-xs font-mono text-cyber-green border border-cyber-green/30 px-2 py-0.5 rounded">Python Scripting</span>
+                            </div>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                Automações de rotinas repetitivas, tratamento e integração de dados de processos empresariais garantindo maior precisão e agilidade nas rotinas diárias.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex flex-wrap gap-2 font-mono text-xs">
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Python</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Automação</span>
+                                <span class="px-2 py-1 rounded bg-cyber-black text-cyber-green border border-cyber-border">Lógica de Programação</span>
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-2 border-t border-cyber-border/50">
+                                <span class="text-xs font-mono text-gray-400">
+                                    <i class="fas fa-cogs text-cyber-green"></i> Otimização e Produtividade
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Learning Methodology Section -->
+        <section id="learning" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-mono text-white">
+                    <span class="text-cyber-cyan">&lt;</span> Minha Forma de Aprender <span class="text-cyber-cyan">/&gt;</span>
+                </h2>
+                <p class="text-gray-300 font-mono text-sm">
+                    "Aprender • Praticar • Criar • Resolver • Evoluir"
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-cyber-cyan/20">
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 font-mono text-center">
+                    
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-cyan/30 hover:border-cyber-cyan transition-all">
+                        <span class="block text-xl mb-1">📚</span>
+                        <span class="text-xs font-bold text-cyber-cyan">APRENDER</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-purple/30 hover:border-cyber-purple transition-all">
+                        <span class="block text-xl mb-1">💻</span>
+                        <span class="text-xs font-bold text-cyber-purple">PRATICAR</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-green/30 hover:border-cyber-green transition-all">
+                        <span class="block text-xl mb-1">🚀</span>
+                        <span class="text-xs font-bold text-cyber-green">CONSTRUIR</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-pink-500/30 hover:border-pink-500 transition-all">
+                        <span class="block text-xl mb-1">🧩</span>
+                        <span class="text-xs font-bold text-pink-400">IDENTIFICAR</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-cyan/30 hover:border-cyber-cyan transition-all">
+                        <span class="block text-xl mb-1">🔨</span>
+                        <span class="text-xs font-bold text-cyber-cyan">RESOLVER</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-purple/30 hover:border-cyber-purple transition-all">
+                        <span class="block text-xl mb-1">🧪</span>
+                        <span class="text-xs font-bold text-cyber-purple">TESTAR</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-cyber-green/30 hover:border-cyber-green transition-all">
+                        <span class="block text-xl mb-1">🔧</span>
+                        <span class="text-xs font-bold text-cyber-green">MELHORAR</span>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-cyber-black/70 border border-pink-500/30 hover:border-pink-500 transition-all">
+                        <span class="block text-xl mb-1">🧠</span>
+                        <span class="text-xs font-bold text-pink-400">EVOLUIR</span>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 p-4 rounded-xl bg-cyber-cyan/5 border border-cyber-cyan/20 text-center font-mono text-xs sm:text-sm text-cyber-cyan">
+                    💡 <strong>“Conhecimento ganha valor quando é colocado em prática.”</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Academic Section -->
+        <section id="experience" class="space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <h2 class="text-3xl font-bold font-mono text-white">
+                    <span class="text-cyber-cyan">&lt;</span> Trajetória & Formação <span class="text-cyber-cyan">/&gt;</span>
+                </h2>
+                <p class="text-gray-400 text-sm">Carreira contínua de 16 anos na Joalmi e especialização acadêmica</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Career History -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold font-mono text-white flex items-center gap-2">
+                        <i class="fas fa-briefcase text-cyber-cyan"></i> Experiência Profissional
+                    </h3>
+
+                    <div class="relative border-l-2 border-cyber-border pl-6 space-y-8">
+                        
+                        <!-- Role 1 -->
+                        <div class="relative group">
+                            <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-cyber-black border-2 border-cyber-cyan group-hover:scale-125 transition-transform"></div>
+                            <div class="glass-panel p-5 rounded-xl space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-white font-mono text-base">Analista de Suporte Jr. / Desenvolvedor</h4>
+                                    <span class="text-xs font-mono text-cyber-cyan">2021 - Atual</span>
+                                </div>
+                                <p class="text-xs text-cyber-purple font-mono font-semibold">JOALMI</p>
+                                <ul class="text-gray-300 text-xs space-y-1.5 pt-1 list-disc list-inside">
+                                    <li>Desenvolvimento e manutenção de programas, telas e relatórios customizados em Progress 4GL para o ERP TOTVS Datasul.</li>
+                                    <li>Manutenção preventiva e corretiva do sistema Datasul, incluindo aplicação de pacotes de atualização.</li>
+                                    <li>Gestão de chamados de suporte ao usuário e sustentação da infraestrutura de TI via GLPI.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Role 2 -->
+                        <div class="relative group">
+                            <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-cyber-black border-2 border-cyber-purple group-hover:scale-125 transition-transform"></div>
+                            <div class="glass-panel p-5 rounded-xl space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-white font-mono text-base">Trajetória Administrativa & Operacional</h4>
+                                    <span class="text-xs font-mono text-gray-400">2010 - 2021</span>
+                                </div>
+                                <p class="text-xs text-cyber-purple font-mono font-semibold">JOALMI</p>
+                                <ul class="text-gray-300 text-xs space-y-1.5 pt-1 list-disc list-inside">
+                                    <li>Atuação sólida em rotinas administrativas e financeiras operacionais.</li>
+                                    <li>Suporte operacional ao PCP e Manutenção Industrial (controle via Kanban e indicadores MTBF/MTTR).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Academic & Courses -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold font-mono text-white flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-cyber-purple"></i> Formação & Cursos
+                    </h3>
+
+                    <div class="space-y-4">
+                        
+                        <div class="glass-panel p-5 rounded-xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white font-mono text-base">Graduação em Análise e Dev. de Sistemas</h4>
+                                <span class="text-xs font-mono text-cyber-green">Em Andamento</span>
+                            </div>
+                            <p class="text-xs text-gray-400 font-mono">Faculdade FASUL</p>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white font-mono text-base">Desenvolvimento Progress ABL para Datasul 12 (80h)</h4>
+                                <span class="text-xs font-mono text-cyber-cyan">Especialização</span>
+                            </div>
+                            <p class="text-xs text-gray-400 font-mono">Neo Step - Customização e programação ABL no ERP Datasul</p>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white font-mono text-base">Microsoft SQL Server 2022 - Formação Completa</h4>
+                                <span class="text-xs font-mono text-cyber-purple">Alura</span>
+                            </div>
+                            <p class="text-xs text-gray-400 font-mono">Stored Procedures, T-SQL, Administração e Performance</p>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white font-mono text-base">Cursos de Aprimoramento Contínuo</h4>
+                                <span class="text-xs font-mono text-gray-400">Alura / Udemy</span>
+                            </div>
+                            <p class="text-xs text-gray-400 font-mono">Angular 19, Cibersegurança, Python, JavaScript, HTML5 e CSS Responsivo</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-8">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-cyber-cyan/30 relative overflow-hidden">
+                <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <h2 class="text-3xl sm:text-4xl font-bold font-mono text-white">
+                            Vamos nos <span class="text-cyber-cyan">conectar?</span>
+                        </h2>
+                        <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                            Se quiser acompanhar minha evolução, conhecer meus projetos ou trocar ideias sobre TOTVS Datasul, Progress ABL, Python e tecnologia, fique totalmente à vontade!
+                        </p>
+
+                        <div class="space-y-4 font-mono text-sm pt-2">
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center text-cyber-cyan">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-400">E-mail</span>
+                                    <a href="mailto:apadilha01@gmail.com" class="text-white hover:text-cyber-cyan font-semibold">apadilha01@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 rounded-lg bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-400">LinkedIn</span>
+                                    <a href="https://linkedin.com/in/asantos321" target="_blank" rel="noopener" class="text-cyber-purple hover:underline font-semibold">
+                                        linkedin.com/in/asantos321
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 rounded-lg bg-cyber-green/10 border border-cyber-green/30 flex items-center justify-center text-cyber-green">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-400">GitHub</span>
+                                    <a href="https://github.com/Apadilha" target="_blank" rel="noopener" class="text-cyber-green hover:underline font-semibold">
+                                        github.com/Apadilha
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 text-gray-300">
+                                <div class="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-gray-400">Instagram</span>
+                                    <a href="https://instagram.com/asantos_321" target="_blank" rel="noopener" class="text-pink-400 hover:underline font-semibold">
+                                        @asantos_321
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Contact Form Card -->
+                    <div class="lg:col-span-5 glass-panel p-6 rounded-2xl border border-cyber-border space-y-4">
+                        <h3 class="font-mono text-lg text-white font-bold">Enviar Mensagem</h3>
+                        <form onsubmit="handleContactSubmit(event)" class="space-y-3 font-mono text-xs">
+                            <div>
+                                <label class="block text-gray-400 mb-1">Seu Nome</label>
+                                <input type="text" required placeholder="Digite seu nome" class="w-full px-3 py-2.5 rounded-lg bg-cyber-black border border-cyber-border text-white focus:outline-none focus:border-cyber-cyan">
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">Seu E-mail</label>
+                                <input type="email" required placeholder="seu@email.com" class="w-full px-3 py-2.5 rounded-lg bg-cyber-black border border-cyber-border text-white focus:outline-none focus:border-cyber-cyan">
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 mb-1">Mensagem</label>
+                                <textarea rows="3" required placeholder="Escreva sua mensagem..." class="w-full px-3 py-2.5 rounded-lg bg-cyber-black border border-cyber-border text-white focus:outline-none focus:border-cyber-cyan"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-cyber-cyan to-cyber-purple text-cyber-black font-bold hover:opacity-90 transition-all shadow-lg shadow-cyber-cyan/20">
+                                Enviar Mensagem <i class="fas fa-paper-plane ml-1"></i>
+                            </button>
+                        </form>
+                        <div id="contact-success" class="hidden p-3 rounded-lg bg-cyber-green/20 border border-cyber-green text-cyber-green text-xs font-mono text-center">
+                            ✓ Mensagem enviada com sucesso!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-cyber-border py-8 text-center font-mono text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Alex dos Santos Padilha. Todos os direitos reservados.</p>
+            <p class="text-cyber-cyan">Continue aprendendo • Continue criando • Continue evoluindo 🚀</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Background Canvas
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        const particleCount = 45;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.8 + 0.5,
+                color: Math.random() > 0.5 ? '#00f3ff' : '#7000ff',
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                alpha: Math.random() * 0.6 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Filter Projects
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const btns = document.querySelectorAll('.filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('bg-cyber-cyan', 'text-cyber-black', 'font-bold');
+                btn.classList.add('glass-panel', 'text-gray-300');
+            });
+
+            event.target.classList.remove('glass-panel', 'text-gray-300');
+            event.target.classList.add('bg-cyber-cyan', 'text-cyber-black', 'font-bold');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Contact Form Submission Handler
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const successBox = document.getElementById('contact-success');
+            successBox.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => {
+                successBox.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
